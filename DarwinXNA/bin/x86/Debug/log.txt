@@ -1,0 +1,14 @@
+Microsoft.Xna.Framework.Content.ContentLoadException: Error loading "imagenes\Punto". File not found. ---> System.IO.DirectoryNotFoundException: No se puede encontrar una parte de la ruta de acceso 'D:\Privado\DESA\Darwin\v4\DarwinXNA\bin\x86\Debug\imagenes\Punto.xnb'.
+   en System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   en System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   en System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   en Microsoft.Xna.Framework.Content.ContentManager.OpenStream(String assetName)
+   --- Fin del seguimiento de la pila de la excepción interna ---
+   en Microsoft.Xna.Framework.Content.ContentManager.OpenStream(String assetName)
+   en Microsoft.Xna.Framework.Content.ContentManager.ReadAsset[T](String assetName, Action`1 recordDisposableObject)
+   en Microsoft.Xna.Framework.Content.ContentManager.Load[T](String assetName)
+   en DarwinXNA.PantallaXNA.CargarImagen(String clave) en D:\Privado\DESA\Darwin\v4\DarwinXNA\PantallaXNA.cs:línea 80
+   en DarwinXNA.PantallaXNA..ctor(GraphicsDeviceManager _graphics, ContentManager _content) en D:\Privado\DESA\Darwin\v4\DarwinXNA\PantallaXNA.cs:línea 29
+   en DarwinXNA.Game1.Initialize() en D:\Privado\DESA\Darwin\v4\DarwinXNA\Game1.cs:línea 46
+   en Microsoft.Xna.Framework.Game.Run()
+   en DarwinXNA.Program.Main() en D:\Privado\DESA\Darwin\v4\DarwinXNA\Program.cs:línea 23
