@@ -91,7 +91,25 @@ namespace DarwinXNA
             }
             tr.Close();
 
-            ret.texture = Texture2D.FromFile(device, strDDS);
+            // MonoGame no soporta archivos DDS, intentar cargar PNG primero
+            string pngPath = System.IO.Path.ChangeExtension(strDDS, ".png");
+            
+            if (System.IO.File.Exists(pngPath))
+            {
+                ret.texture = Texture2D.FromFile(device, pngPath);
+            }
+            else if (System.IO.File.Exists(strDDS))
+            {
+                throw new NotSupportedException(
+                    $"MonoGame no soporta archivos DDS. Por favor convierte '{strDDS}' a PNG.\n" +
+                    $"Ejecuta el script ConvertDDStoPNG.ps1 o convierte manualmente el archivo a PNG.");
+            }
+            else
+            {
+                throw new System.IO.FileNotFoundException(
+                    $"No se encontró el archivo de fuente en PNG o DDS: {pngPath} o {strDDS}");
+            }
+            
             ret.fontRenderer = unSpriteBatch;
 
             return ret;

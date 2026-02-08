@@ -23,18 +23,35 @@ namespace DarwinDLL
         public int regenerarTerreno;
         [XmlAttribute]
         public int tiempo;
+        
+        // Dimensiones del terreno (se serializan para poder recrearlo)
+        [XmlAttribute]
+        public int anchoTerreno;
+        [XmlAttribute]
+        public int altoTerreno;
+
 
         public Universo()
         {
-            Inicializar();
+            Inicializar(2000, 2000); 
         }
 
-        private void Inicializar()
+        public Universo(int ancho, int alto)
+        {
+            Inicializar(ancho, alto);
+        }
+
+        private void Inicializar(int anchoTerreno, int altoTerreno)
         {
             velocidad = 1;
             tiempo = 0;
             regenerarTerreno = 0;
-            terreno = new Terreno(new PuntoEntero(900, 768));
+            
+            // Guardar dimensiones para serialización
+            this.anchoTerreno = anchoTerreno;
+            this.altoTerreno = altoTerreno;
+            
+            terreno = new Terreno(new PuntoEntero(anchoTerreno, altoTerreno));
             Pozos = new EventList<Pozo>();
             Especies = new EventList<Especie>();
             codificador = new Codificador();
@@ -42,19 +59,23 @@ namespace DarwinDLL
             Especies.beforeAdd += new EventList<Especie>.beforeAddDelegator(beforeAdd);
         }
 
+
         public void InicializarPorDefault()
         {
-            Inicializar();
+            // Los pozos se ajustarán proporcionalmente al tamaño del terreno
+            int anchoTerreno = terreno.tamaño.x;
+            int altoTerreno = terreno.tamaño.y;
+            
             Pozos.Add(new Pozo(new Punto(500, 300), 150, 150));
             Pozos.Add(new Pozo(new Punto(500, 500), 60, 60));
             Pozos.Add(new Pozo(new Punto(20, 20), 38, 38));
-            Pozos.Add(new Pozo(new Punto(20, 748), 38, 38));
+            Pozos.Add(new Pozo(new Punto(20, altoTerreno - 20), 38, 38));
             
-            Pozos.Add(new Pozo(new Punto(450, 10),500, 10));
-            Pozos.Add(new Pozo(new Punto(450, 758),500, 10));
+            Pozos.Add(new Pozo(new Punto(450, 10), 500, 10));
+            Pozos.Add(new Pozo(new Punto(450, altoTerreno - 10), 500, 10));
 
-            Pozos.Add(new Pozo(new Punto(880, 20), 38, 38));
-            Pozos.Add(new Pozo(new Punto(880, 748), 38, 38));
+            Pozos.Add(new Pozo(new Punto(anchoTerreno - 20, 20), 38, 38));
+            Pozos.Add(new Pozo(new Punto(anchoTerreno - 20, altoTerreno - 20), 38, 38));
 
             Especie Vegetal = new Especie();
             Vegetal.nombre = "Vegetal";
@@ -221,6 +242,13 @@ namespace DarwinDLL
         {
             Universo u = (Universo)Universo.Deserialize(xml, typeof(Universo));
 
+            // Recrear el terreno con las dimensiones guardadas
+            // Si no están guardadas (universos antiguos), usar valores por defecto
+            int ancho = u.anchoTerreno > 0 ? u.anchoTerreno : 900;
+            int alto = u.altoTerreno > 0 ? u.altoTerreno : 768;
+            
+            u.terreno = new Terreno(new PuntoEntero(ancho, alto));
+            
             foreach (Pozo p in u.Pozos)
             {
                 u.AgregarPozoAlTerreno(p);

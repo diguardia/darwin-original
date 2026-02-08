@@ -1,104 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{66D110A8-7943-4400-860A-12FD9BC084DC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DarwinDLL</RootNamespace>
-    <AssemblyName>DarwinDLL</AssemblyName>
-    <StartupObject>
-    </StartupObject>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <ImplicitUsings>false</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>2</WarningLevel>
-    <BaseAddress>285212672</BaseAddress>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>2</WarningLevel>
-    <BaseAddress>285212672</BaseAddress>
-  </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Compile Remove="bichito.cs" />
+    <Compile Remove="Predador.cs" />
+    <Compile Remove="Recolector.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accion.cs" />
-    <Compile Include="AccionGirarDerecha.cs" />
-    <Compile Include="AccionGirarIzquierda.cs" />
-    <Compile Include="AccionSeguir.cs" />
-    <Compile Include="Animal.cs" />
-    <Compile Include="AnimalVistaReaccion.cs" />
-    <Compile Include="AnimalQueMira.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Cerebro.cs" />
-    <Compile Include="CerebroNeuronal.cs" />
-    <Compile Include="CerebroVistaReaccion.cs" />
-    <Compile Include="Fuego.cs" />
-    <Compile Include="Sonido.cs" />
-    <Compile Include="Terreno.cs" />
-    <Compile Include="HemisferioNeuronal.cs" />
-    <Compile Include="Codificador.cs" />
-    <Compile Include="ColaSerVivoPosicion.cs" />
-    <Compile Include="AnimalNeuronal.cs" />
-    <Compile Include="DiccionarioAcciones.cs" />
-    <Compile Include="EventList.cs" />
-    <Compile Include="Hemisferio.cs" />
-    <Compile Include="Neurona.cs" />
-    <Compile Include="Par.cs" />
-    <Compile Include="PuntoEntero.cs" />
-    <Compile Include="Especie.cs" />
-    <Compile Include="HemisferioVistaReaccion.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="Nada.cs" />
-    <Compile Include="Objeto.cs" />
-    <Compile Include="Pantalla.cs" />
-    <Compile Include="Pared.cs" />
-    <Compile Include="Planta.cs" />
-    <Compile Include="Pozo.cs" />
-    <Compile Include="Punto.cs" />
-    <Compile Include="Random.cs" />
-    <Compile Include="Rectangulo.cs" />
-    <Compile Include="Seguidor.cs" />
-    <Compile Include="SerializableDictionary.cs" />
-    <Compile Include="SerVivo.cs" />
-    <Compile Include="SerVivoPosicion.cs" />
-    <Compile Include="Universo.cs" />
-    <Compile Include="Vector.cs" />
-    <Compile Include="Ventana.cs" />
-    <Compile Include="Vista.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
+    <None Remove="BichitosDLL_CS.conversion_issues.htm" />
+    <None Remove="BichitosDLL_CS.log.xml" />
+    <None Remove="BichitosDLL_CS.suo" />
   </ItemGroup>
 </Project>

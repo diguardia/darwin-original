@@ -1,12 +1,7 @@
-using System.Drawing;
+ï»¿using System;
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 namespace DarwinDLL
 {
-    // TRANSMISSINGCOMMENT: Class Seguidor
     public class Seguidor
     {
         public Punto posicion;
@@ -18,7 +13,6 @@ namespace DarwinDLL
             posicion = new Punto(0, 0);
         }
 
-        // TRANSMISSINGCOMMENT: Method Dibujar
         public void Dibujar(Pantalla unaPantalla, Ventana ventanaSeleccion, Ventana ventanaSeleccionAdicional)
         {
             unaPantalla.PegarImagen(posicion, "seguidor", angulo);
@@ -26,21 +20,17 @@ namespace DarwinDLL
             if (angulo <= 2 * Math.PI)
                 angulo = angulo - 2 * Math.PI;
 
-
             if (seleccionado != null)
             {
                 seleccionado.EscribirInfoRelevante(ventanaSeleccion);
-//                seleccionado.EscribirInfoAdicional(ventanaSeleccionAdicional, unaPantalla);
             }
         }
 
-
-        // TRANSMISSINGCOMMENT: Method Tick
         public void Tick(Terreno terreno)
         {
             if (seleccionado == null)
             {
-                seleccionado = ((DarwinDLL.Objeto)(terreno.UnObjeto(posicion, 10)));
+                seleccionado = terreno.UnObjeto(posicion, 10);
             }
 
             if (seleccionado != null)
@@ -48,15 +38,15 @@ namespace DarwinDLL
                 posicion = seleccionado.posicion.Clonar();
                 if (EsUnSerVivo())
                 {
-                    LiberarSiEstáMuerto();
+                    LiberarSiEstaMuerto();
                 }
             }
         }
 
-        private void LiberarSiEstáMuerto()
+        private void LiberarSiEstaMuerto()
         {
             SerVivo serVivo = (SerVivo)seleccionado;
-            if (serVivo.EstáMuerto)
+            if (serVivo.EstaMuerto)
             {
                 seleccionado = null;
             }
@@ -64,17 +54,12 @@ namespace DarwinDLL
 
         private bool EsUnSerVivo()
         {
-            return seleccionado.GetType().IsSubclassOf(typeof(SerVivo));
+            return seleccionado is SerVivo;
         }
 
-
-        // TRANSMISSINGCOMMENT: Method LiberSeguimiento
         public void LiberSeguimiento()
         {
             seleccionado = null;
         }
-
     }
-
-
 }

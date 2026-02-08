@@ -38,5 +38,5 @@ u.Guardar(\"save.xml\");                   // persistir
 ```
 
 ## Dependencias
-- .NET Framework 3.5; namespaces estándar (`System`, `System.Drawing`, `System.Xml.Serialization`).
-- Sin recursos gráficos propios; el renderizado lo provee el cliente (XNA u otro).
+- .NET 6.0 (Windows); namespaces estándar (`System`, `System.Drawing`, `System.Xml.Serialization`).
+- Sin recursos gráficos propios; el renderizado lo provee el cliente (MonoGame u otro).

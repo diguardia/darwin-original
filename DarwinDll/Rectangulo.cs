@@ -169,7 +169,7 @@ namespace DarwinDLL
 
         public override string TipoDeObjeto()
         {
-            throw new Exception("The method or operation is not implemented.");
+            return this.GetType().Name;
         }
     } 
     

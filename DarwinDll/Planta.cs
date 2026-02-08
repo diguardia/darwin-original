@@ -110,6 +110,10 @@ namespace DarwinDLL
             
         }
 
+        public override Especie TipoComida()
+        {
+            return null;
+        }
 
         public override string TipoDeObjeto()
         {

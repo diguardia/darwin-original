@@ -15,22 +15,22 @@ namespace DarwinDLL
 
         public override void EscribirInfoRelevante(Ventana unaVentana)
         {
-            throw new Exception("The method or operation is not implemented.");
+            unaVentana.Escribir("Pared " + nombre, System.Drawing.Color.WhiteSmoke);
         }
 
         public override void EscribirInfoAdicional(Ventana unaVentana, Pantalla unaPantalla)
         {
-            throw new Exception("The method or operation is not implemented.");
+            // Sin detalles adicionales
         }
 
         public override Punto posicion
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get { return new Punto(0, 0); }
         }
 
         public override void Dibujar(Pantalla pantalla)
         {
-            throw new Exception("The method or operation is not implemented.");
+            // Las paredes representan los bordes; no se dibujan aquí.
         }
 
         public override string TipoDeObjeto()

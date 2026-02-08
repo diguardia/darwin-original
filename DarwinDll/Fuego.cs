@@ -25,12 +25,12 @@ namespace DarwinDLL
 
         public override bool SePuedeReproducirCon(SerVivo otroSerVivo)
         {
-            throw new Exception("The method or operation is not implemented.");
+            return false;
         }
 
         public override void ReproducirCon(SerVivo serVivo)
         {
-            throw new Exception("The method or operation is not implemented.");
+            // El fuego no se reproduce por apareamiento directo
         }
 
         public override bool EsperaParaReproducirse()
@@ -40,12 +40,17 @@ namespace DarwinDLL
 
         public override SerVivo Clonar()
         {
-            throw new Exception("The method or operation is not implemented.");
+            return especie.CrearIndividuo();
         }
 
         public override SerVivo ClonarConVariantes()
         {
-            throw new Exception("The method or operation is not implemented.");
+            return especie.CrearIndividuo();
+        }
+
+        public override Especie TipoComida()
+        {
+            return null;
         }
 
         public override string TipoDeObjeto()

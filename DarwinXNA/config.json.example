@@ -1,0 +1,16 @@
+// Configuración de Darwin XNA
+// Modifica estos valores y reinicia el juego para aplicar cambios
+{
+  // Ancho de la ventana (mínimo: 224)
+  "screenWidth": 1024,
+  // Alto de la ventana (mínimo: 600)
+  "screenHeight": 768,
+  // Pantalla completa al iniciar
+  "fullscreen": false,
+  // Sincronización vertical (reduce tearing)
+  "vsync": true,
+  // Velocidad de simulación inicial (1 = normal)
+  "defaultSpeed": 1
+}
+// Nota: El viewport de juego será de 900x768 (124px reservados para UI)
+// El universo tiene un tamaño fijo de 2000x2000

@@ -3,11 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
 using DarwinDLL;
 #endregion
 
@@ -15,41 +12,70 @@ namespace DarwinXNA
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        public static ContentManager content;
         GraphicsDeviceManager graphics;
         public Universo universo;
         PantallaXNA pantalla;
         private Seguidor seguidor = new Seguidor();
         Ventana ventanaSeleccion;
         Ventana ventanaEspecies;
+        private Camera camera;
+        private GameConfig config;
 
-        AudioEngine audioEngine;
-        WaveBank waveBank;
-        SoundBank soundBank;
-
-        public Game1(Universo unUniverso)
+        public Game1(Universo unUniverso, GameConfig gameConfig)
         {
             universo = unUniverso;
+            config = gameConfig;
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
+            
+            // Configurar el Content Root Directory
+            Content.RootDirectory = "Content/bin/DesktopGL";
+            
+            // Aplicar configuración
+            graphics.PreferredBackBufferWidth = config.ScreenWidth;
+            graphics.PreferredBackBufferHeight = config.ScreenHeight;
+            graphics.IsFullScreen = config.Fullscreen;
+            graphics.SynchronizeWithVerticalRetrace = config.VSync;
+            
             graphics.PreferMultiSampling = false;
             graphics.PreferredBackBufferFormat = SurfaceFormat.Bgr32;
-            this.IsFixedTimeStep = true;
+            this.IsFixedTimeStep = config.VSync;
             this.IsMouseVisible = true;
-       //     graphics.ToggleFullScreen();
-            content = new ContentManager(Services);
+            
+            Log.Info($"Configuración de pantalla aplicada: {config.ScreenWidth}x{config.ScreenHeight}, Fullscreen: {config.Fullscreen}, VSync: {config.VSync}");
         }
 
         protected override void Initialize()
         {
-            pantalla = new PantallaXNA(graphics, content);
-            ventanaSeleccion = new Ventana(pantalla, new Punto(960, 60), 110, 100);
+            // Crear cámara con tamaño fijo del universo
+            camera = new Camera(config.ViewportWidth, config.ViewportHeight, 
+                              GameConstants.UNIVERSE_WIDTH, GameConstants.UNIVERSE_HEIGHT);
+            
+            pantalla = new PantallaXNA(graphics, Content, camera);
+            
+            // Posicionar ventanas basadas en las constantes
+            int panelX = GameConstants.PanelStartX + GameConstants.INFO_WINDOW_OFFSET_X;
+            
+            ventanaSeleccion = new Ventana(pantalla, 
+                new Punto(panelX, GameConstants.INFO_WINDOW_OFFSET_Y), 
+                GameConstants.INFO_WINDOW_WIDTH, 
+                GameConstants.INFO_WINDOW_HEIGHT);
             ventanaSeleccion.Titulo = "Seleccionado";
-            ventanaEspecies = new Ventana(pantalla, new Punto(960, 450), 110, 600);
+            
+            ventanaEspecies = new Ventana(pantalla, 
+                new Punto(panelX, GameConstants.SPECIES_WINDOW_OFFSET_Y), 
+                GameConstants.SPECIES_WINDOW_WIDTH, 
+                GameConstants.SPECIES_WINDOW_HEIGHT);
             ventanaEspecies.Titulo = "Especies";
-            seguidor.posicion.x = 1000;
-            seguidor.posicion.y = 700;
+            
+            // Posicionar seguidor en el centro del universo (no del viewport)
+            seguidor.posicion.x = universo.anchoTerreno / 2;
+            seguidor.posicion.y = universo.altoTerreno / 2;
+            
+            // Centrar cámara en el seguidor
+            camera.CenterOn(seguidor.posicion.x, seguidor.posicion.y);
+            
+            Log.Info($"Cámara inicializada - Viewport: {camera.ViewportWidth}x{camera.ViewportHeight}, Universo: {camera.UniverseWidth}x{camera.UniverseHeight}");
+            Log.Info($"Ventanas UI posicionadas - Panel inicia en x={GameConstants.PanelStartX}");
 
 /*            audioEngine = new AudioEngine("./sonidos/darwin.xgs");
             waveBank = new WaveBank(audioEngine, "./sonidos/Wave Bank.xwb");
@@ -87,8 +113,16 @@ namespace DarwinXNA
 
             if (Keyboard.GetState().IsKeyDown(Keys.N))
             {
-                universo = new Universo();
+                GameConfig newConfig = GameConfig.Load();
+                universo = new Universo(GameConstants.UNIVERSE_WIDTH, GameConstants.UNIVERSE_HEIGHT);
                 universo.InicializarPorDefault();
+                
+                // Recrear la cámara con las nuevas dimensiones (universo fijo, viewport puede cambiar)
+                camera = new Camera(newConfig.ViewportWidth, newConfig.ViewportHeight,
+                                  GameConstants.UNIVERSE_WIDTH, GameConstants.UNIVERSE_HEIGHT);
+                camera.CenterOn(GameConstants.UNIVERSE_WIDTH / 2, GameConstants.UNIVERSE_HEIGHT / 2);
+                
+                Log.Info($"Universo reiniciado: {GameConstants.UNIVERSE_WIDTH}x{GameConstants.UNIVERSE_HEIGHT}");
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.F))
@@ -139,9 +173,10 @@ namespace DarwinXNA
 //            ImprimirPerformance();
 
             pantalla.FinalizarBatch();
+            // Sonidos deshabilitados en la migración a MonoGame; vaciamos la cola si se usara.
             while (Sonido.colaSonidos.Count > 0)
             {
-                soundBank.PlayCue(Sonido.colaSonidos.Dequeue ());
+                Sonido.colaSonidos.Dequeue();
             }
 
             base.Draw(gameTime);
